@@ -1,5 +1,5 @@
 import { View, StyleSheet } from 'react-native';
-import React, { FC, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
 import Reanimated, {
@@ -11,13 +11,19 @@ import Reanimated, {
 } from 'react-native-reanimated';
 import { BACKGROUND_COLOR, HIGHLIGHT_COLOR, SPEED } from './constants';
 
+interface Props {
+  children?: ReactNode;
+  backgroundColor?: string;
+  highlightColor: string;
+}
+
 // * SkeletonLoader handles making animation for any type of View
-export const SkeletonLoader: FC = ({
+export const SkeletonLoader = ({
   children,
   backgroundColor,
   highlightColor,
-}) => {
-  const [layout, setLayout] = useState();
+}: Props) => {
+  const [layout, setLayout] = useState<{ width: number; height: number }>();
   const shared = useSharedValue(0);
 
   useEffect(() => {
