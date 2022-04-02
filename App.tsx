@@ -1,20 +1,31 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from 'react-native';
+import React from 'react';
+import { ItemList } from './src/ItemList';
+import { wait } from './src/utils';
+import ItemListLoader from './src/ItemListLoader';
 
 export default function App() {
+  const [hasloaded, setHasLoaded] = React.useState(false);
+
+  React.useEffect(() => {
+    wait(2000).then(() => setHasLoaded(true));
+  });
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar hidden />
+      {hasloaded ? <ItemList /> : <ItemListLoader />}
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
